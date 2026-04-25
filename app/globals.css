@@ -1,5 +1,24 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #0C0C0C;
+  --white: #FFFFFF;
+  --off: #F7F6F3;
+  --grey: #888;
+  --lg: #E2E0DB;
+  --v: #6B1FFF;
+  --v2: #8B45FF;
+  --vsoft: rgba(107,31,255,0.07);
+  --vborder: rgba(107,31,255,0.2);
+  --font-serif: var(--font-cormorant);
+  --font-sans: var(--font-inter);
 }
+
+body {
+  font-family: var(--font-inter), sans-serif;
+  background: var(--white);
+  color: var(--black);
+  overflow-x: hidden;
+}
+
+html { scroll-behavior: smooth; }
