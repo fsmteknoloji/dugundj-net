@@ -8,6 +8,7 @@ import Sayaclar from './components/Sayaclar'
 import NedenBiz from './components/NedenBiz'
 import Referanslar from './components/Referanslar'
 import Blog from './components/Blog'
+import DJolCTA from './components/DJolCTA'
 import Footer from './components/Footer'
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
       <NedenBiz />
       <Referanslar />
       <Blog />
+      <DJolCTA />
       <Footer />
     </main>
   )
