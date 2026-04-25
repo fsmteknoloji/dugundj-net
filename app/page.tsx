@@ -6,6 +6,8 @@ import NasilCalisir from './components/NasilCalisir'
 import DJler from './components/DJler'
 import Sayaclar from './components/Sayaclar'
 import NedenBiz from './components/NedenBiz'
+import Referanslar from './components/Referanslar'
+import Blog from './components/Blog'
 import Footer from './components/Footer'
 
 export default function Home() {
@@ -19,6 +21,8 @@ export default function Home() {
       <DJler />
       <Sayaclar />
       <NedenBiz />
+      <Referanslar />
+      <Blog />
       <Footer />
     </main>
   )
