@@ -1,4 +1,5 @@
 'use client'
+import { useIsMobile } from './useIsMobile'
 
 const yazilar = [
   {
@@ -33,11 +34,11 @@ function BlogKart({ yazi }: { yazi: Yazi }) {
   return (
     <div
       style={{
-        display: 'block',
         background: '#fff',
-        borderRadius: '4px',
+        borderRadius: '12px',
         overflow: 'hidden',
         border: '1px solid #E2E0DB',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
         transition: 'transform .3s ease, box-shadow .3s ease',
         cursor: 'pointer',
       }}
@@ -49,30 +50,22 @@ function BlogKart({ yazi }: { yazi: Yazi }) {
       onMouseLeave={e => {
         const el = e.currentTarget as HTMLElement
         el.style.transform = 'translateY(0)'
-        el.style.boxShadow = 'none'
+        el.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)'
       }}
       onClick={() => { window.location.href = '/blog/' + yazi.slug }}
     >
       <div style={{ height: '220px', overflow: 'hidden', position: 'relative' }}>
-        <img
-          src={yazi.img}
-          alt={yazi.baslik}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        <img src={yazi.img} alt={yazi.baslik} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform .4s ease' }}
+          onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.04)')}
+          onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
         />
-        <div style={{
-          position: 'absolute', top: '14px', left: '14px',
-          background: '#6B1FFF', color: '#fff',
-          fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase',
-          padding: '5px 12px', borderRadius: '2px', fontWeight: 500,
-        }}>{yazi.kategori}</div>
+        <div style={{ position: 'absolute', top: '14px', left: '14px', background: '#6B1FFF', color: '#fff', fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', padding: '5px 12px', borderRadius: '4px', fontWeight: 500 }}>
+          {yazi.kategori}
+        </div>
       </div>
       <div style={{ padding: '24px' }}>
-        <h3 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '22px', fontWeight: 400, color: '#0C0C0C', lineHeight: 1.3, marginBottom: '10px' }}>
-          {yazi.baslik}
-        </h3>
-        <p style={{ fontSize: '13px', fontWeight: 300, color: '#888', lineHeight: 1.75, marginBottom: '18px' }}>
-          {yazi.ozet}
-        </p>
+        <h3 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '22px', fontWeight: 400, color: '#0C0C0C', lineHeight: 1.3, marginBottom: '10px' }}>{yazi.baslik}</h3>
+        <p style={{ fontSize: '13px', fontWeight: 300, color: '#888', lineHeight: 1.75, marginBottom: '18px' }}>{yazi.ozet}</p>
         <div style={{ fontSize: '11px', color: '#aaa', letterSpacing: '1px', display: 'flex', alignItems: 'center', gap: '6px' }}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" strokeWidth="1.5">
             <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
@@ -85,8 +78,10 @@ function BlogKart({ yazi }: { yazi: Yazi }) {
 }
 
 export default function Blog() {
+  const isMobile = useIsMobile()
+
   return (
-    <section style={{ padding: '100px 64px', background: '#F7F6F3' }}>
+    <section style={{ padding: isMobile ? '60px 20px' : '100px 64px', background: '#F7F6F3' }}>
       <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '48px' }}>
         <div>
           <div style={{ fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase', color: '#6B1FFF', marginBottom: '14px', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -102,7 +97,11 @@ export default function Blog() {
         </a>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '24px' }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)',
+        gap: '24px',
+      }}>
         {yazilar.map((y, i) => (
           <BlogKart key={i} yazi={y} />
         ))}

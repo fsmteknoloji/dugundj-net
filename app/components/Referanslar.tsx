@@ -1,4 +1,5 @@
 'use client'
+import { useIsMobile } from './useIsMobile'
 
 const etkinlikler = [
   {
@@ -41,8 +42,10 @@ const etkinlikler = [
 ]
 
 export default function Referanslar() {
+  const isMobile = useIsMobile()
+
   return (
-    <section style={{ padding: '100px 64px', background: '#111115' }}>
+    <section style={{ padding: isMobile ? '60px 20px' : '100px 64px', background: '#111115' }}>
       <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '48px' }}>
         <div>
           <div style={{ fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase', color: '#6B1FFF', marginBottom: '14px', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -59,54 +62,50 @@ export default function Referanslar() {
         </a>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '6px' }}>
-        {/* BÜYÜK SOL KART */}
-        <BuyukKart etkinlik={etkinlikler[0]} />
-
-        {/* SAĞ 4'LÜ GRID */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
-          {etkinlikler.slice(1).map((e, i) => (
+      {isMobile ? (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '10px' }}>
+          {etkinlikler.map((e, i) => (
             <KucukKart key={i} etkinlik={e} />
           ))}
         </div>
-      </div>
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '6px' }}>
+          <BuyukKart etkinlik={etkinlikler[0]} />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+            {etkinlikler.slice(1).map((e, i) => (
+              <KucukKart key={i} etkinlik={e} />
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   )
 }
 
 function BuyukKart({ etkinlik }: { etkinlik: typeof etkinlikler[0] }) {
   return (
-    <a href="/referanslar" style={{
-      display: 'block', textDecoration: 'none',
-      position: 'relative', borderRadius: '6px', overflow: 'hidden',
-      minHeight: '480px',
-      transition: 'transform .3s ease',
-    }}
+    <div
+      style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', minHeight: '480px', cursor: 'pointer', transition: 'transform .3s ease' }}
       onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = 'scale(1.01)'}
       onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = 'scale(1)'}
     >
       <img src={etkinlik.img} alt={etkinlik.baslik} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0, filter: 'brightness(.55)' }} />
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 50%)' }} />
-      {/* Sol mor çizgi */}
       <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '3px', background: 'linear-gradient(to bottom, #6B1FFF, transparent)' }} />
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '32px' }}>
         <div style={{ fontSize: '10px', letterSpacing: '2px', textTransform: 'uppercase', color: '#6B1FFF', marginBottom: '10px', fontWeight: 600 }}>{etkinlik.kategori}</div>
-        <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: '28px', fontWeight: 400, color: '#fff', marginBottom: '8px', letterSpacing: '.5px' }}>{etkinlik.baslik}</div>
+        <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: '28px', fontWeight: 400, color: '#fff', marginBottom: '8px' }}>{etkinlik.baslik}</div>
         <div style={{ fontSize: '13px', color: 'rgba(255,255,255,.6)', marginBottom: '12px' }}>{etkinlik.dj} · {etkinlik.detay}</div>
         <div style={{ fontSize: '13px', color: '#8B45FF', fontStyle: 'italic' }}>★★★★★ {etkinlik.yorum}</div>
       </div>
-    </a>
+    </div>
   )
 }
 
 function KucukKart({ etkinlik }: { etkinlik: typeof etkinlikler[0] }) {
   return (
-    <a href="/referanslar" style={{
-      display: 'block', textDecoration: 'none',
-      position: 'relative', borderRadius: '6px', overflow: 'hidden',
-      minHeight: '234px',
-      transition: 'transform .3s ease',
-    }}
+    <div
+      style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', minHeight: '234px', cursor: 'pointer', transition: 'transform .3s ease' }}
       onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = 'scale(1.02)'}
       onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = 'scale(1)'}
     >
@@ -117,6 +116,6 @@ function KucukKart({ etkinlik }: { etkinlik: typeof etkinlikler[0] }) {
         <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: '18px', fontWeight: 400, color: '#fff', marginBottom: '4px' }}>{etkinlik.baslik}</div>
         <div style={{ fontSize: '12px', color: 'rgba(255,255,255,.55)' }}>{etkinlik.dj} · {etkinlik.detay}</div>
       </div>
-    </a>
+    </div>
   )
 }
