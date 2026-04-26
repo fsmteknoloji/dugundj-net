@@ -18,6 +18,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'dugundj.net — Türkiye\'nin DJ Kiralama Platformu',
   description: 'Düğün, kına, after parti ve tüm organizasyonlar için profesyonel DJ kiralama platformu.',
+  icons: {
+    icon: '/logo.jpg',
+    apple: '/logo.jpg',
+  },
 }
 
 export default function RootLayout({

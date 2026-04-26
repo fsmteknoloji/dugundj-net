@@ -17,14 +17,9 @@ export default function Navbar() {
         backdropFilter: 'blur(24px)',
         borderBottom: '1px solid rgba(0,0,0,0.07)',
       }}>
-        <Link href="/" style={{
-          fontFamily: 'var(--font-cormorant)',
-          fontSize: '22px', fontWeight: 600,
-          letterSpacing: '2px', textDecoration: 'none',
-          color: '#0C0C0C', textTransform: 'uppercase',
-        }}>
-          Düğün<em style={{ fontStyle: 'normal', color: '#6B1FFF' }}>DJ</em>
-        </Link>
+        <Link href="/">
+  <img src="/dugundj_logo2.jpg" alt="dugundj.net" style={{ height: '44px', width: 'auto', display: 'block' }} />
+</Link>
 
         {!isMobile && (
           <div style={{ display: 'flex', gap: '40px' }}>
