@@ -40,7 +40,7 @@ export default function MedyaAdmin() {
           url: supabase.storage.from('fotograflar').getPublicUrl(klasor + '/' + d.name).data.publicUrl,
           klasor,
           boyut: d.metadata?.size,
-          created_at: d.created_at,
+          created_at: d.created_at ?? undefined,
         }))
       setDosyalar(dosyaListesi)
     }
