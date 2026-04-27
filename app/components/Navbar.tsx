@@ -18,7 +18,7 @@ export default function Navbar() {
         borderBottom: '1px solid rgba(0,0,0,0.07)',
       }}>
         <Link href="/">
-  <img src="/dugundj_logo.jpg" alt="dugundj.net" style={{ height: '56px', width: 'auto', display: 'block' }} />
+  <img src="/logo.jpg" alt="dugundj.net" style={{ height: '56px', width: 'auto', display: 'block' }} />
 </Link>
 
         {!isMobile && (
