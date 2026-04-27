@@ -2,13 +2,13 @@
 import Link from 'next/link'
 
 const menuler = [
-  { baslik: 'DJ Yönetimi', aciklama: "DJ ekle, düzenle, sil", href: '/admin/djler', ikon: '🎧', renk: '#6B1FFF' },
-  { baslik: 'Kategoriler', aciklama: 'Etkinlik kategorilerini yönet', href: '/admin/kategoriler', ikon: '📂', renk: '#8B45FF' },
-  { baslik: 'Blog Yazıları', aciklama: 'Yazı ekle ve düzenle', href: '/admin/blog', ikon: '✍️', renk: '#6B1FFF' },
-  { baslik: 'Referans Etkinlikler', aciklama: 'Referans etkinlikleri yönet', href: '/admin/etkinlikler', ikon: '🎪', renk: '#8B45FF' },
-  { baslik: 'Teklif Talepleri', aciklama: 'Gelen talepleri görüntüle', href: '/admin/teklifler', ikon: '📋', renk: '#6B1FFF' },
-  { baslik: 'Yorumlar', aciklama: 'Yorumları onayla veya sil', href: '/admin/yorumlar', ikon: '⭐', renk: '#8B45FF' },
-  { baslik: 'Site Ayarları', aciklama: 'Footer, iletişim, sosyal medya', href: '/admin/ayarlar', ikon: '⚙️', renk: '#6B1FFF' },
+  { baslik: 'DJ Yönetimi', aciklama: "DJ ekle, düzenle, sil", href: '/ddj-panel/djler', ikon: '🎧', renk: '#6B1FFF' },
+  { baslik: 'Kategoriler', aciklama: 'Etkinlik kategorilerini yönet', href: '/ddj-panel/kategoriler', ikon: '📂', renk: '#8B45FF' },
+  { baslik: 'Blog Yazıları', aciklama: 'Yazı ekle ve düzenle', href: '/ddj-panel/blog', ikon: '✍️', renk: '#6B1FFF' },
+  { baslik: 'Referans Etkinlikler', aciklama: 'Referans etkinlikleri yönet', href: '/ddj-panel/etkinlikler', ikon: '🎪', renk: '#8B45FF' },
+  { baslik: 'Teklif Talepleri', aciklama: 'Gelen talepleri görüntüle', href: '/ddj-panel/teklifler', ikon: '📋', renk: '#6B1FFF' },
+  { baslik: 'Yorumlar', aciklama: 'Yorumları onayla veya sil', href: '/ddj-panel/yorumlar', ikon: '⭐', renk: '#8B45FF' },
+  { baslik: 'Site Ayarları', aciklama: 'Footer, iletişim, sosyal medya', href: '/ddj-panel/ayarlar', ikon: '⚙️', renk: '#6B1FFF' },
 ]
 
 export default function AdminPanel() {

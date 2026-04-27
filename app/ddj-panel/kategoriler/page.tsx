@@ -75,7 +75,7 @@ export default function KategorilerAdmin() {
       {/* HEADER */}
       <div style={{ background: '#0C0C0C', padding: '20px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Link href="/admin" style={{ color: 'rgba(255,255,255,.5)', textDecoration: 'none', fontSize: '13px' }}>← Admin</Link>
+          <Link href="/ddj-panel" style={{ color: 'rgba(255,255,255,.5)', textDecoration: 'none', fontSize: '13px' }}>← Admin</Link>
           <span style={{ color: 'rgba(255,255,255,.2)' }}>/</span>
           <span style={{ color: '#fff', fontSize: '13px', fontWeight: 500 }}>Kategoriler</span>
         </div>
