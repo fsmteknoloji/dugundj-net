@@ -12,13 +12,13 @@ export default function Navbar() {
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 999,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: isMobile ? '0 20px' : '0 64px', height: '66px',
+        padding: isMobile ? '0 20px' : '0 64px', height: '76px',
         background: 'rgba(255,255,255,0.93)',
         backdropFilter: 'blur(24px)',
         borderBottom: '1px solid rgba(0,0,0,0.07)',
       }}>
         <Link href="/">
-  <img src="/dugundj_logo2.jpg" alt="dugundj.net" style={{ height: '44px', width: 'auto', display: 'block' }} />
+  <img src="/dugundj_logo.jpg" alt="dugundj.net" style={{ height: '56px', width: 'auto', display: 'block' }} />
 </Link>
 
         {!isMobile && (
