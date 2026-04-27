@@ -87,7 +87,7 @@ export default function BlogAdmin() {
 
       <div style={{ background: '#0C0C0C', padding: '20px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Link href="/ddj-panel" style={{ color: 'rgba(255,255,255,.5)', textDecoration: 'none', fontSize: '13px' }}>← Admin</Link>
+          <Link href="/admin" style={{ color: 'rgba(255,255,255,.5)', textDecoration: 'none', fontSize: '13px' }}>← Admin</Link>
           <span style={{ color: 'rgba(255,255,255,.2)' }}>/</span>
           <span style={{ color: '#fff', fontSize: '13px', fontWeight: 500 }}>Blog Yazıları</span>
         </div>
@@ -154,7 +154,7 @@ export default function BlogAdmin() {
                     <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#6B1FFF', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '5px' }}>
                       {f.label}
                     </label>
-                    <input type={f.tip} value={(form as Record<string, string>)[f.key]}
+                    type={f.tip} value={(form as unknown as Record<string, string>)[f.key]}
                       onChange={e => setForm({ ...form, [f.key]: e.target.value })}
                       style={{ width: '100%', padding: '9px 12px', border: '1.5px solid #E2E0DB', borderRadius: '8px', fontSize: '14px', outline: 'none', fontFamily: 'Inter, sans-serif' }} />
                   </div>

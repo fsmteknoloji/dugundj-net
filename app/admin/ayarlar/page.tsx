@@ -92,7 +92,7 @@ export default function AyarlarPage() {
       {/* HEADER */}
       <div style={{ background: '#0C0C0C', padding: '20px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <Link href="/ddj-panel" style={{ color: 'rgba(255,255,255,.5)', textDecoration: 'none', fontSize: '13px' }}>
+          <Link href="/admin" style={{ color: 'rgba(255,255,255,.5)', textDecoration: 'none', fontSize: '13px' }}>
             ← Admin
           </Link>
           <div style={{ color: 'rgba(255,255,255,.2)', fontSize: '13px' }}>/</div>
