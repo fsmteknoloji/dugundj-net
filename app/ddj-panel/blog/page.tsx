@@ -154,7 +154,7 @@ export default function BlogAdmin() {
                     <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#6B1FFF', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '5px' }}>
                       {f.label}
                     </label>
-                    <input type={f.tip} value={(form as Record<string, string>)[f.key]}
+                    value={(form as unknown as Record<string, string>)[f.key]}
                       onChange={e => setForm({ ...form, [f.key]: e.target.value })}
                       style={{ width: '100%', padding: '9px 12px', border: '1.5px solid #E2E0DB', borderRadius: '8px', fontSize: '14px', outline: 'none', fontFamily: 'Inter, sans-serif' }} />
                   </div>
