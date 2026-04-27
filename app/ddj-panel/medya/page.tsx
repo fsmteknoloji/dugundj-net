@@ -115,8 +115,8 @@ export default function MedyaAdmin() {
                 padding: '8px 18px', borderRadius: '100px', border: 'none', cursor: 'pointer',
                 fontSize: '13px', fontWeight: 500,
                 background: aktifKlasor === k ? '#6B1FFF' : '#fff',
-                color: aktifKlasor === k ? '#fff' : '#444',
-                border: aktifKlasor === k ? 'none' : '1px solid #E2E0DB',
+color: aktifKlasor === k ? '#fff' : '#444',
+outline: aktifKlasor === k ? 'none' : '1px solid #E2E0DB',
               }}>
               {k === 'genel' ? '📁 Genel' :
                k === 'djler' ? '🎧 DJ\'ler' :
