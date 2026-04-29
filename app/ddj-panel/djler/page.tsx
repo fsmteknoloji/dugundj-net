@@ -56,13 +56,32 @@ export default function DJlerAdmin() {
 
   async function kaydet() {
     if (!form.isim) return
-    const veri = { ...form, slug: form.slug || slugOlustur(form.isim) }
+    const veri = {
+      isim: form.isim,
+      slug: form.slug || slugOlustur(form.isim),
+      sehir: form.sehir,
+      biyografi: form.biyografi,
+      muzik_tarzi: form.muzik_tarzi,
+      baslangic_fiyati: form.baslangic_fiyati,
+      profil_foto: form.profil_foto,
+      puan: form.puan,
+      yorum_sayisi: form.yorum_sayisi,
+      one_cikan: form.one_cikan,
+      aktif: form.aktif,
+    }
     if (duzenleId) {
-      await supabase.from('djler').update(veri).eq('id', duzenleId)
-      setMesaj('✅ DJ güncellendi!')
+      const { error } = await supabase
+        .from('djler')
+        .update(veri)
+        .eq('id', duzenleId)
+      if (error) { alert('Hata: ' + error.message); return }
+      setMesaj('DJ güncellendi!')
     } else {
-      await supabase.from('djler').insert(veri)
-      setMesaj('✅ DJ eklendi!')
+      const { error } = await supabase
+        .from('djler')
+        .insert(veri)
+      if (error) { alert('Hata: ' + error.message); return }
+      setMesaj('DJ eklendi!')
     }
     setForm(bos)
     setDuzenleId(null)
@@ -78,7 +97,19 @@ export default function DJlerAdmin() {
   }
 
   function duzenle(dj: DJ) {
-    setForm(dj)
+    setForm({
+      isim: dj.isim || '',
+      slug: dj.slug || '',
+      sehir: dj.sehir || '',
+      biyografi: dj.biyografi || '',
+      muzik_tarzi: dj.muzik_tarzi || '',
+      baslangic_fiyati: dj.baslangic_fiyati || 0,
+      profil_foto: dj.profil_foto || '',
+      puan: dj.puan || 0,
+      yorum_sayisi: dj.yorum_sayisi || 0,
+      one_cikan: dj.one_cikan || false,
+      aktif: dj.aktif !== false,
+    })
     setDuzenleId(dj.id!)
     setTab('form')
   }
@@ -89,10 +120,19 @@ export default function DJlerAdmin() {
     setTab('form')
   }
 
+  async function fotoyukle(e: React.ChangeEvent<HTMLInputElement>) {
+    const dosya = e.target.files?.[0]
+    if (!dosya) return
+    const dosyaAdi = `djler/${Date.now()}-${dosya.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`
+    const { error } = await supabase.storage.from('fotograflar').upload(dosyaAdi, dosya)
+    if (!error) {
+      const { data } = supabase.storage.from('fotograflar').getPublicUrl(dosyaAdi)
+      setForm(prev => ({ ...prev, profil_foto: data.publicUrl }))
+    }
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: '#F7F6F3' }}>
-
-      {/* HEADER */}
       <div style={{ background: '#0C0C0C', padding: '20px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <Link href="/ddj-panel" style={{ color: 'rgba(255,255,255,.5)', textDecoration: 'none', fontSize: '13px' }}>← Admin</Link>
@@ -109,7 +149,6 @@ export default function DJlerAdmin() {
       )}
 
       <div style={{ padding: '32px 40px' }}>
-
         {tab === 'liste' ? (
           <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #E2E0DB', overflow: 'hidden' }}>
             <div style={{ padding: '18px 24px', borderBottom: '1px solid #E2E0DB', fontSize: '15px', fontWeight: 600, color: '#0C0C0C' }}>
@@ -121,7 +160,7 @@ export default function DJlerAdmin() {
               <div style={{ padding: '40px', textAlign: 'center', color: '#888' }}>
                 Henüz DJ eklenmemiş.{' '}
                 <button onClick={yeniDJ} style={{ color: '#6B1FFF', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontSize: '14px' }}>
-                  İlk DJ\'i ekle
+                  İlk DJ ekle
                 </button>
               </div>
             ) : (
@@ -166,11 +205,10 @@ export default function DJlerAdmin() {
                   { label: 'Slug (URL)', key: 'slug', tip: 'text' },
                   { label: 'Müzik Tarzı', key: 'muzik_tarzi', tip: 'text' },
                   { label: 'Başlangıç Fiyatı (₺)', key: 'baslangic_fiyati', tip: 'number' },
-                 
                   { label: 'Puan (0-5)', key: 'puan', tip: 'number' },
                   { label: 'Yorum Sayısı', key: 'yorum_sayisi', tip: 'number' },
                 ].map((f, i) => (
-                  <div key={i} style={{ gridColumn: f.key === 'profil_foto' ? '1 / -1' : 'auto' }}>
+                  <div key={i}>
                     <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#6B1FFF', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '5px' }}>
                       {f.label}
                     </label>
@@ -191,50 +229,35 @@ export default function DJlerAdmin() {
                     {sehirler.map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>
-<div style={{ gridColumn: '1 / -1' }}>
-  <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#6B1FFF', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>
-    Profil Fotoğrafı
-  </label>
-  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-    {form.profil_foto && (
-      <img src={form.profil_foto} alt="profil" style={{ width: '64px', height: '64px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #E2E0DB' }} />
-    )}
-    <div>
-      <input
-        type="file"
-        accept="image/*"
-        id="profil-foto-input"
-        style={{ display: 'none' }}
-        onChange={async (e) => {
-          const dosya = e.target.files?.[0]
-          if (!dosya) return
-          const dosyaAdi = `dj-${Date.now()}-${dosya.name}`
-          const { error } = await supabase.storage.from('fotograflar').upload(dosyaAdi, dosya)
-          if (!error) {
-            const { data } = supabase.storage.from('fotograflar').getPublicUrl(dosyaAdi)
-            setForm({ ...form, profil_foto: data.publicUrl })
-          }
-        }}
-      />
-      <button
-        type="button"
-        onClick={() => document.getElementById('profil-foto-input')?.click()}
-        style={{ background: '#F7F6F3', border: '1.5px solid #E2E0DB', padding: '9px 18px', borderRadius: '8px', fontSize: '13px', cursor: 'pointer', color: '#444' }}
-      >
-        📸 Fotoğraf Seç
-      </button>
-      {form.profil_foto && (
-        <button
-          type="button"
-          onClick={() => setForm({ ...form, profil_foto: '' })}
-          style={{ marginLeft: '8px', background: '#FFF5F5', border: '1px solid #FFCDD2', padding: '9px 14px', borderRadius: '8px', fontSize: '13px', cursor: 'pointer', color: '#C62828' }}
-        >
-          Sil
-        </button>
-      )}
-    </div>
-  </div>
-</div>
+
+                <div style={{ gridColumn: '1 / -1' }}>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#6B1FFF', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>
+                    Profil Fotoğrafı
+                  </label>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    {form.profil_foto ? (
+                      <img src={form.profil_foto} alt="profil" style={{ width: '64px', height: '64px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #E2E0DB' }} />
+                    ) : (
+                      <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#F7F6F3', border: '2px dashed #E2E0DB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>
+                        👤
+                      </div>
+                    )}
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <input type="file" accept="image/*" id="profil-foto-input" style={{ display: 'none' }} onChange={fotoyukle} />
+                      <button type="button" onClick={() => document.getElementById('profil-foto-input')?.click()}
+                        style={{ background: '#F7F6F3', border: '1.5px solid #E2E0DB', padding: '9px 18px', borderRadius: '8px', fontSize: '13px', cursor: 'pointer', color: '#444' }}>
+                        📸 Fotoğraf Seç
+                      </button>
+                      {form.profil_foto && (
+                        <button type="button" onClick={() => setForm(prev => ({ ...prev, profil_foto: '' }))}
+                          style={{ background: '#FFF5F5', border: '1px solid #FFCDD2', padding: '9px 14px', borderRadius: '8px', fontSize: '13px', cursor: 'pointer', color: '#C62828' }}>
+                          Sil
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
                 <div style={{ gridColumn: '1 / -1' }}>
                   <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#6B1FFF', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '5px' }}>Biyografi</label>
                   <textarea value={form.biyografi} onChange={e => setForm({ ...form, biyografi: e.target.value })} rows={4}
