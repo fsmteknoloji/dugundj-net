@@ -23,9 +23,14 @@ export default function Navbar() {
 
         {!isMobile && (
           <div style={{ display: 'flex', gap: '40px' }}>
-            {['Hizmetler', "DJ'ler", 'Süreç', 'İletişim'].map((item, i) => (
-              <Link key={i} href="#" style={{ fontSize: '11px', letterSpacing: '1.8px', textTransform: 'uppercase', color: '#888', textDecoration: 'none' }}>{item}</Link>
-            ))}
+            {[
+  { label: 'Hizmetler', href: '/djler' },
+  { label: "DJ'ler", href: '/djler' },
+  { label: 'Süreç', href: '/blog' },
+  { label: 'İletişim', href: '/iletisim' },
+].map((item, i) => (
+  <Link key={i} href={item.href} style={{ fontSize: '11px', letterSpacing: '1.8px', textTransform: 'uppercase', color: '#888', textDecoration: 'none' }}>{item.label}</Link>
+))}
           </div>
         )}
 
