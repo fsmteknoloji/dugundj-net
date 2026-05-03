@@ -9,6 +9,7 @@ const menuler = [
   { baslik: 'Teklif Talepleri', aciklama: 'Gelen talepleri görüntüle', href: '/ddj-panel/teklifler', ikon: '📋', renk: '#6B1FFF' },
   { baslik: 'Yorumlar', aciklama: 'Yorumları onayla veya sil', href: '/ddj-panel/yorumlar', ikon: '⭐', renk: '#8B45FF' },
   { baslik: 'Site Ayarları', aciklama: 'Footer, iletişim, sosyal medya', href: '/ddj-panel/ayarlar', ikon: '⚙️', renk: '#6B1FFF' },
+  { baslik: 'Kullanıcılar', aciklama: 'Admin kullanıcıları yönet', href: '/ddj-panel/kullanicilar', ikon: '👥', renk: '#6B1FFF' },
 ]
 
 export default function AdminPanel() {
