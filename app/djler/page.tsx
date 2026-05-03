@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 import { useSearchParams } from 'next/navigation'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-
+import KategorilerBar from '../components/KategorilerBar'
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -120,7 +120,7 @@ function DJlerIcerik() {
           </div>
         )}
       </div>
-
+<KategorilerBar />
       <Footer />
     </div>
   )
@@ -168,6 +168,7 @@ function DJKart({ dj }: { dj: DJ }) {
           </span>
         </div>
       </div>
+      
       <div style={{ padding: '18px 20px 22px' }}>
         <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: '22px', fontWeight: 400, color: '#0C0C0C', marginBottom: '4px' }}>{dj.isim}</div>
         <div style={{ fontSize: '11px', letterSpacing: '1.5px', textTransform: 'uppercase', color: '#888', marginBottom: '14px' }}>{dj.muzik_tarzi}</div>

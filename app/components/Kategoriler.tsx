@@ -27,6 +27,13 @@ const kategoriler = [
   { isim: 'Drone Çekim', svg: 'drone' },
 ]
 
+function slugOlustur(isim: string) {
+  return isim.toLowerCase()
+    .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
+    .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
+    .replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-')
+}
+
 function getPath(key: string) {
   switch(key) {
     case 'dugun': return <path d="M12 2l1.5 4.5H18l-3.5 2.5 1.3 4L12 11l-3.8 2 1.3-4L6 6.5h4.5z"/>
@@ -59,6 +66,7 @@ function getPath(key: string) {
 function KategoriKart({ isim, svgKey }: { isim: string; svgKey: string }) {
   return (
     <div
+      onClick={() => window.location.href = '/kategoriler/' + slugOlustur(isim)}
       style={{
         background: '#fff',
         borderRadius: '12px',

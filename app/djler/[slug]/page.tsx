@@ -3,6 +3,7 @@ import { useState, useEffect, use } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import KategorilerBar from '../../components/KategorilerBar'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -227,7 +228,7 @@ export default function DJDetay({ params }: { params: Promise<{ slug: string }> 
           </div>
         )}
       </div>
-
+<KategorilerBar />
       <Footer />
     </div>
   )
