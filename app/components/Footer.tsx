@@ -1,60 +1,97 @@
 'use client'
-import Link from 'next/link'
-import { useIsMobile } from './useIsMobile'
+import { useState, useEffect } from 'react'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 export default function Footer() {
-  const isMobile = useIsMobile()
+  const [ayarlar, setAyarlar] = useState<Record<string, string>>({})
+
+  useEffect(() => {
+    async function yukle() {
+      const { data } = await supabase.from('ayarlar').select('*')
+      if (data) {
+        const obj: Record<string, string> = {}
+        data.forEach((row: { anahtar: string; deger: string }) => {
+          obj[row.anahtar] = row.deger
+        })
+        setAyarlar(obj)
+      }
+    }
+    yukle()
+  }, [])
 
   return (
-    <footer style={{ background: '#0C0C0C', padding: isMobile ? '48px 20px 28px' : '64px 64px 36px' }}>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: isMobile ? '1fr 1fr' : '2fr 1fr 1fr 1fr',
-        gap: isMobile ? '32px' : '40px',
-        paddingBottom: '48px',
-        borderBottom: '1px solid rgba(255,255,255,.06)',
-        marginBottom: '30px',
-      }}>
-        <div style={{ gridColumn: isMobile ? '1 / -1' : 'auto' }}>
-          <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: '20px', fontWeight: 400, letterSpacing: '2px', textTransform: 'uppercase', color: '#fff', marginBottom: '6px' }}>
-            Düğün<em style={{ fontStyle: 'normal', color: '#6B1FFF' }}>DJ</em>
+    <footer style={{ background: '#0C0C0C', padding: '60px 64px 32px', borderTop: '1px solid rgba(255,255,255,.06)' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '40px', marginBottom: '48px' }}>
+
+          {/* LOGO & AÇIKLAMA */}
+          <div style={{ gridColumn: 'span 1' }}>
+            <img src="/logo.jpg" alt="dugundj.net" style={{ height: '48px', marginBottom: '16px' }} />
+            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,.4)', lineHeight: 1.8, fontWeight: 300 }}>
+              {ayarlar.footer_metin || 'Türkiye\'nin DJ kiralama platformu.'}
+            </p>
           </div>
-          <div style={{ width: '32px', height: '2px', background: '#6B1FFF', margin: '12px 0 16px' }} />
-          <p style={{ fontSize: '13px', fontWeight: 300, color: 'rgba(255,255,255,.28)', lineHeight: 1.8, maxWidth: '230px' }}>
-            Türkiye&apos;nin DJ kiralama ve organizasyon platformu. Doğru DJ&apos;i, doğru fiyata, güvenle.
-          </p>
+
+          {/* LİNKLER */}
+          <div>
+            <div style={{ fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: '#6B1FFF', marginBottom: '16px', fontWeight: 600 }}>Platform</div>
+            {[
+              { label: 'DJ Bul', href: '/djler' },
+              { label: 'Kategoriler', href: '/kategoriler/dugun' },
+              { label: 'Blog', href: '/blog' },
+              { label: 'Teklif Al', href: '/teklif-al' },
+            ].map((l, i) => (
+              <a key={i} href={l.href} style={{ display: 'block', fontSize: '13px', color: 'rgba(255,255,255,.4)', textDecoration: 'none', marginBottom: '10px', fontWeight: 300 }}>
+                {l.label}
+              </a>
+            ))}
+          </div>
+
+          {/* İLETİŞİM */}
+          <div>
+            <div style={{ fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: '#6B1FFF', marginBottom: '16px', fontWeight: 600 }}>İletişim</div>
+            <a href={`https://wa.me/${(ayarlar.whatsapp || '').replace(/\s/g, '')}`}
+              style={{ display: 'block', fontSize: '13px', color: 'rgba(255,255,255,.4)', textDecoration: 'none', marginBottom: '10px', fontWeight: 300 }}>
+              {ayarlar.whatsapp || 'WhatsApp'}
+            </a>
+            <a href={`mailto:${ayarlar.email}`}
+              style={{ display: 'block', fontSize: '13px', color: 'rgba(255,255,255,.4)', textDecoration: 'none', marginBottom: '10px', fontWeight: 300 }}>
+              {ayarlar.email || 'E-posta'}
+            </a>
+          </div>
+
+          {/* SOSYAL MEDYA */}
+          <div>
+            <div style={{ fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: '#6B1FFF', marginBottom: '16px', fontWeight: 600 }}>Sosyal Medya</div>
+            {[
+              { label: 'Instagram', key: 'instagram' },
+              { label: 'Facebook', key: 'facebook' },
+              { label: 'YouTube', key: 'youtube' },
+            ].map((s, i) => ayarlar[s.key] ? (
+              <a key={i} href={ayarlar[s.key]}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'block', fontSize: '13px', color: 'rgba(255,255,255,.4)', textDecoration: 'none', marginBottom: '10px', fontWeight: 300 }}>
+                {s.label}
+              </a>
+            ) : null)}
+          </div>
         </div>
 
-        <div>
-          <h5 style={{ fontSize: '10px', letterSpacing: '2.5px', textTransform: 'uppercase', color: '#6B1FFF', marginBottom: '18px', fontWeight: 500 }}>Platform</h5>
-          {['DJ Listesi', 'Kategoriler', 'Teklif Al', 'Ekipman Kirala', 'Blog'].map(l => (
-            <Link key={l} href="#" style={{ display: 'block', fontSize: '13px', fontWeight: 300, color: 'rgba(255,255,255,.38)', textDecoration: 'none', marginBottom: '10px' }}>{l}</Link>
-          ))}
-        </div>
-
-        <div>
-          <h5 style={{ fontSize: '10px', letterSpacing: '2.5px', textTransform: 'uppercase', color: '#6B1FFF', marginBottom: '18px', fontWeight: 500 }}>DJ&apos;ler</h5>
-          {['Başvuru Formu', 'DJ Paneli', 'Nasıl Çalışır'].map(l => (
-            <Link key={l} href="#" style={{ display: 'block', fontSize: '13px', fontWeight: 300, color: 'rgba(255,255,255,.38)', textDecoration: 'none', marginBottom: '10px' }}>{l}</Link>
-          ))}
-        </div>
-
-        <div>
-          <h5 style={{ fontSize: '10px', letterSpacing: '2.5px', textTransform: 'uppercase', color: '#6B1FFF', marginBottom: '18px', fontWeight: 500 }}>Destek</h5>
-          {['SSS', 'İletişim', 'Gizlilik Politikası', 'Kullanım Koşulları', 'KVKK'].map(l => (
-            <Link key={l} href="#" style={{ display: 'block', fontSize: '13px', fontWeight: 300, color: 'rgba(255,255,255,.38)', textDecoration: 'none', marginBottom: '10px' }}>{l}</Link>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
-        <div style={{ fontSize: '11px', letterSpacing: '1px' }}>
-          <span style={{ color: '#6B1FFF' }}>© 2025 dugundj.net</span>
-          <span style={{ color: '#fff' }}> &nbsp;|&nbsp; Tasarım & Yazılım: </span>
-          <a href="https://fsmteknoloji.com.tr" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>FSM Teknoloji</a>
-        </div>
-        <div style={{ fontFamily: 'var(--font-cormorant)', fontSize: '13px', fontStyle: 'italic', color: '#fff' }}>
-          Müziğin durmadığı yerde.
+        {/* ALT ÇIZGI */}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,.06)', paddingTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+          <div style={{ fontSize: '12px', color: 'rgba(255,255,255,.2)', fontWeight: 300 }}>
+            {ayarlar.footer_telif || '© 2025 dugundj.net'}
+          </div>
+          <a href="https://fsmteknoloji.com.tr" target="_blank" rel="noopener noreferrer"
+            style={{ fontSize: '12px', color: 'rgba(255,255,255,.2)', textDecoration: 'none', fontWeight: 300 }}>
+            FSM Teknoloji
+          </a>
         </div>
       </div>
     </footer>
